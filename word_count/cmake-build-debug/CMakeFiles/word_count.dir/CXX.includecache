@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/matejstabuc/CLionProjects/word_count/main.cpp
+algorithm
+-
+string
+-
+fstream
+-
+iostream
+-
+map
+-
+sys/stat.h
+-
+windows.h
+-
+stdio.h
+-
+vector
+-
+set
+-
+
