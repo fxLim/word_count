@@ -10,11 +10,6 @@ using namespace ::std;
 
 void WordCounter::parseDoc() {
     ifstream input(filename);
-    if (!input) {
-        cout << "Fehler beim Öffnen der Datei " << filename << "\n";
-        exit(1);
-    }
-
     float progress;
     int progressLast = 0;
     long byteCount = 0;
@@ -22,7 +17,6 @@ void WordCounter::parseDoc() {
     cout << "Ven zie den Vorgang stoppen möchten drücken Sie CTRL + C!" << endl;
     cout << "Die datai \"" << filename << "\" wird verarbeitet:" << endl;
 
-//        map<string, int> wordData;
     string word;
     while (input >> word) {
         byteCount = byteCount + word.length() + 1;
@@ -55,8 +49,6 @@ void WordCounter::printProgress(float progress) {
     }
 }
 
-//multimap elements can have the same keys
-
 multimap<int, string> WordCounter::invertMap() {
     multimap<int, string> multiMap;
 
@@ -84,21 +76,20 @@ void WordCounter::printTable() {
 
 long WordCounter::getFileSize() {
     struct stat statBuf;
-    int rc = !stat(filename.c_str(), &statBuf) ? statBuf.st_size : 0;
+    int rc = stat(filename.c_str(), &statBuf);
 
-    return rc == 0 ? 0 : statBuf.st_size;
+    return rc == 0 ? statBuf.st_size : -1;
 }
 
 WordCounter::WordCounter(const string filename) {
     this->filename = filename;
 }
 
-unsigned short WordCounter::printWordData() {
+short WordCounter::printWordData() {
     fileSize = getFileSize();
-    if (0 != fileSize) {
+    if (0 != fileSize && -1 != fileSize) {
         parseDoc();
         printTable();
     }
-
-    return fileSize == 0 ? 1 : 0;
+    return fileSize > 0 ? 1 : fileSize;
 }

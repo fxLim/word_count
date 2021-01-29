@@ -36,11 +36,15 @@ int main(int argc, char *argv[]) {
     } else {
         const string filename = argv[1];
         WordCounter doc(filename);
-        if (exitStatus = doc.printWordData()) {
-            cout << "ERROR: Datei existiert nicht oder ungültige Dateigröße.";
-
-            exitStatus = 1;
+        switch (doc.printWordData()) {
+            case 0:
+                cout << "Datei ist leer.";
+                break;
+            case -1:
+                cout << "ERROR: Datei existiert nicht.";
+                exitStatus = 1;
         }
     }
+
     return exitStatus;
 }

@@ -1,0 +1,3 @@
+C:/Users/matejstabuc/CLionProjects/word_count/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/matejstabuc/CLionProjects/word_count/cmake-build-debug/CMakeFiles/word_count.dir
+C:/Users/matejstabuc/CLionProjects/word_count/cmake-build-debug/CMakeFiles/edit_cache.dir

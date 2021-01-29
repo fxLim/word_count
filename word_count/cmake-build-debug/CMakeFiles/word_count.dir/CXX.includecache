@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/matejstabuc/CLionProjects/word_count/WordCounter.cpp
+string
+-
+iostream
+-
+fstream
+-
+map
+-
+sys/stat.h
+-
+WordCounter.h
+C:/Users/matejstabuc/CLionProjects/word_count/WordCounter.h
+
+C:/Users/matejstabuc/CLionProjects/word_count/WordCounter.h
+string
+-
+map
+-
+
+C:/Users/matejstabuc/CLionProjects/word_count/main.cpp
+algorithm
+-
+string
+-
+iostream
+-
+windows.h
+-
+stdio.h
+-
+WordCounter.h
+C:/Users/matejstabuc/CLionProjects/word_count/WordCounter.h
+
