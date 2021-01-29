@@ -1,97 +1,104 @@
-#include "WordCount.h"
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <map>
+#include <sys/stat.h>
 
-void WordCounter::parseDoc(const string filename) {		//ffunkcije v class vidijo class memberje
-	ifstream input(filename);
-	if (!input)
-	{
-		cout << "Fehler beim Öffnen der Datei " << filename << "\n";
-		exit(1);
-	}
+#include "WordCounter.h"
 
-	float progress;
-	int progressLast = 0;
-	long byteCount = 0;
+using namespace ::std;
 
-	cout << "Ven zie den Vorgang stoppen möchten drücken Sie CTRL + C!" << endl;
-	cout << "Die datai \"" << filename << "\" wird verarbeitet:" << endl;
+void WordCounter::parseDoc() {
+    ifstream input(filename);
+    if (!input) {
+        cout << "Fehler beim Öffnen der Datei " << filename << "\n";
+        exit(1);
+    }
+
+    float progress;
+    int progressLast = 0;
+    long byteCount = 0;
+
+    cout << "Ven zie den Vorgang stoppen möchten drücken Sie CTRL + C!" << endl;
+    cout << "Die datai \"" << filename << "\" wird verarbeitet:" << endl;
 
 //        map<string, int> wordData;
-	string word;
-	while (input >> word) {
-		byteCount = byteCount + word.length() + 1;
-		progress = ((float)byteCount / fileSize);
-		if(progressLast != (int)(progress*100)) {
-			printProgress(progress);
-			progressLast = progress*100;
-		}
-		if (wordData.find(word) != wordData.end()) {
-			wordData[word]++;
-		}
-		else {
-			wordData[word] = 1;
-		}
-	}
-	printProgress(1);
+    string word;
+    while (input >> word) {
+        byteCount = byteCount + word.length() + 1;
+        progress = ((float) byteCount / fileSize);
+        if (progressLast != (int) (progress * 100)) {
+            printProgress(progress);
+            progressLast = progress * 100;
+        }
+        if (wordData.find(word) != wordData.end()) {
+            wordData[word]++;
+        } else {
+            wordData[word] = 1;
+        }
+    }
+    printProgress(1);
 }
 
-void printProgress(float progress) {
-	if (1 >= progress) {
-		const int barWidth = 70;
-		cout << "\r[";
-		int pos = barWidth * progress;
-		for (int i = 0; i < barWidth; ++i) {				//oklepaji
-			if (i < pos) cout << "=";
-			else if (i == pos) cout << ">";
-			else cout << " ";
-		}
-		cout << "] " << int(progress * 100.0) << "% \r";
-		cout.flush();
-	}
-}
-
-void printTable(map<string, int> wordData) {
-	cout << "\n";
-	cout.width(20);
-	cout << left << "Wort";
-	cout << left << "Anzahl\n";
-
-	multimap<int, string> newmap = invertMap(wordData);
-
-	for (auto const& [key, val] : newmap) {
-		cout.width(20);
-		cout << left << val;
-		cout << left << key << endl;
-	}
-}
-
-long getFileSize(string filename) {
-	struct stat statBuf;
-	int rc = !stat(filename.c_str(), &statBuf) ? statBuf.st_size : -1;
-	if (1 > rc ) {
-		cout << "ERROR: Datei existiert nicht oder ungültige Dateigröße.";
-		exit(1);
-	}
-	return statBuf.st_size;
+void WordCounter::printProgress(float progress) {
+    if (1 >= progress) {
+        const int barWidth = 70;
+        cout << "\r[";
+        int pos = barWidth * progress;
+        for (int i = 0; i < barWidth; ++i) {
+            if (i < pos) { cout << "="; }
+            else if (i == pos) { cout << ">"; }
+            else { cout << " "; }
+        }
+        cout << "] " << int(progress * 100.0) << "% \r";
+        cout.flush();
+    }
 }
 
 //multimap elements can have the same keys
 
-multimap<int, string> invertMap(map<string, int> &map) {
-	multimap<int, string> multiMap;
+multimap<int, string> WordCounter::invertMap() {
+    multimap<int, string> multiMap;
 
-	for (auto const& [key, val] : map) {
-		multiMap.insert(make_pair(val, key));
-	}
+    for (auto const&[key, val] : wordData) {
+        multiMap.insert(make_pair(val, key));
+    }
 
-	return multiMap;
+    return multiMap;
 }
 
-wordCounter::wordCounter(const string filename):
-	this.filename(filename)
- {}
-	
-void printWordData() { 
-	fileSize = getFileSize(filename);
-	parseDoc(filename);
-	printTable(wordData);
-	}
+void WordCounter::printTable() {
+    cout << "\n";
+    cout.width(20);
+    cout << left << "Wort";
+    cout << left << "Anzahl\n";
+
+    multimap<int, string> newmap = invertMap();
+
+    for (auto const&[key, val] : newmap) {
+        cout.width(20);
+        cout << left << val;
+        cout << left << key << endl;
+    }
+}
+
+long WordCounter::getFileSize() {
+    struct stat statBuf;
+    int rc = !stat(filename.c_str(), &statBuf) ? statBuf.st_size : 0;
+
+    return rc == 0 ? 0 : statBuf.st_size;
+}
+
+WordCounter::WordCounter(const string filename) {
+    this->filename = filename;
+}
+
+unsigned short WordCounter::printWordData() {
+    fileSize = getFileSize();
+    if (0 != fileSize) {
+        parseDoc();
+        printTable();
+    }
+
+    return fileSize == 0 ? 1 : 0;
+}
