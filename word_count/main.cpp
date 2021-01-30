@@ -9,13 +9,13 @@
 using namespace std;
 
 BOOL WINAPI consoleHandler(DWORD signal) {
-
+    BOOL success = TRUE;
     if (CTRL_C_EVENT == signal) {
         printf("\nVom Benutzer beendet.\n");
-        exit(0);
+        success = FALSE;
     }
 
-    return TRUE;
+    return success;
 }
 
 int main(int argc, char *argv[]) {

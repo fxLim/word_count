@@ -11,20 +11,20 @@ using namespace ::std;
  */
 class WordCounter {
 private:
-    std::map<string, int> wordData;     /* @brief Number of occurrences of specific words. */
-    long fileSize;                      /* @brief Size of the file. */
-    string filename;                    /* @brief Path to file. */
+    std::map<string, int> wordData;     /** @brief Number of occurrences of specific words. */
+    long fileSize;                      /** @brief Size of the file. */
+    const string filename;              /** @brief Path to file. */
 
-    /* @brief Parse file and print the progress. */
+    /** @brief Parse file and print the progress. */
     void parseDoc();
 
     /**
      * @brief Print a progress bar.
-     * @param progress - relative lenght of progress bar
+     * @param progress - relative length of progress bar
      */
     void printProgress(float progress);
 
-    /* @brief Prints table containing word occurrences. */
+    /** @brief Prints table containing word occurrences. */
     void printTable();
 
     /**
@@ -44,7 +44,7 @@ public:
      * @brief Constructs a WordCounter with a given filename.
      * @param filename - Absolute path to the filename.
      */
-    WordCounter(const string filename);
+    explicit WordCounter(const string filename);
 
     /**
      * @brief Parses file and prints word occurrences.

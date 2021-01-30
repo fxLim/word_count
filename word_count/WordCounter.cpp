@@ -12,7 +12,7 @@ void WordCounter::parseDoc() {
     ifstream input(filename);
     float progress;
     int progressLast = 0;
-    long byteCount = 0;
+    unsigned long byteCount = 0;
 
     cout << "Ven zie den Vorgang stoppen möchten drücken Sie CTRL + C!" << endl;
     cout << "Die datai \"" << filename << "\" wird verarbeitet:" << endl;
@@ -65,9 +65,9 @@ void WordCounter::printTable() {
     cout << left << "Wort";
     cout << left << "Anzahl\n";
 
-    multimap<int, string> newmap = invertMap();
+    multimap<int, string> sortedWordData = invertMap();
 
-    for (auto const&[key, val] : newmap) {
+    for (auto const&[key, val] : sortedWordData) {
         cout.width(20);
         cout << left << val;
         cout << left << key << endl;
@@ -81,8 +81,9 @@ long WordCounter::getFileSize() {
     return rc == 0 ? statBuf.st_size : -1;
 }
 
-WordCounter::WordCounter(const string filename) {
-    this->filename = filename;
+WordCounter::WordCounter(const string filename)
+: filename(filename)
+{
 }
 
 short WordCounter::printWordData() {
